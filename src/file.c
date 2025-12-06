@@ -10,11 +10,11 @@
 
 
 int create_db_file(char *filename) {
-
+    return 0;
 }
 
 int open_db_file(char *filename) {
-
+    return 0;
 }
 
 
