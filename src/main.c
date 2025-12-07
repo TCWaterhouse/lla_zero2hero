@@ -1,6 +1,6 @@
-#include <stdio.h>
-#include <stdbool.h>
 #include <getopt.h>
+#include <stdbool.h>
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "common.h"
@@ -14,27 +14,27 @@ void print_usage(char *argv[]) {
     return;
 }
 
-int main(int argc, char *argv[]) { 
-    char* filepath = NULL;
+int main(int argc, char *argv[]) {
+    char *filepath = NULL;
     bool newfile = false;
     int c = 0;
     int dbfd = -1;
 
-	while ((c = getopt(argc, argv, "nf:")) != -1) {
-		switch(c) {
-			case 'f':
-                filepath = optarg;
-				break;
-			case 'n':
-                newfile = true;
-				break;
-            case '?':
-                printf("Unknown option -%c\n", c);
-                break;
-            default:
-                return -1;
-		}
-	}
+    while ((c = getopt(argc, argv, "nf:")) != -1) {
+        switch (c) {
+        case 'f':
+            filepath = optarg;
+            break;
+        case 'n':
+            newfile = true;
+            break;
+        case '?':
+            printf("Unknown option -%c\n", c);
+            break;
+        default:
+            return -1;
+        }
+    }
 
     if (filepath == NULL) {
         printf("Filepath is a required argument\n");
@@ -61,4 +61,3 @@ int main(int argc, char *argv[]) {
 
     return 0;
 }
-

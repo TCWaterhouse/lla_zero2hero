@@ -1,13 +1,12 @@
 #include <stdio.h>
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/stat.h>
 #include <fcntl.h>
+#include <sys/stat.h>
+#include <sys/types.h>
+#include <unistd.h>
 
-#include "file.h"
 #include "common.h"
-
+#include "file.h"
 
 int create_db_file(char *filename) {
     int fd = open(filename, O_RDONLY);
@@ -33,5 +32,3 @@ int open_db_file(char *filename) {
     }
     return fd;
 }
-
-
