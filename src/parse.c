@@ -67,7 +67,7 @@ int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *
     printf("%s %s %s\n", name, addr, hours);
 
     struct employee_t *e = *employees;
-    e = realloc(e, sizeof(struct employee_t) * dbhdr->count + 1);
+    e = realloc(e, sizeof(struct employee_t) * (dbhdr->count + 1));
     if (e == NULL) {
         return STATUS_ERROR;
     }
