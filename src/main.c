@@ -8,16 +8,21 @@
 #include "parse.h"
 
 void print_usage(char *argv[]) {
-    printf("Usage: %s -n -f <database gile>\n", argv[0]);
-    printf("\t -n - create new database file\n");
+    printf("Usage: %s -f <database file> -n -a <employee name, address, hours>\n", argv[0]);
     printf("\t -f - (required) path to database file\n");
+    printf("\t -n - create new database file\n");
+    printf("\t -a - add employee to database\n");
     return;
 }
 
 int main(int argc, char *argv[]) {
     char *filepath = NULL;
+    char *portarg = NULL;
+    unsigned short port = 0;
     bool newfile = false;
-    int c = 0;
+    bool list = false;
+    char *addstring = NULL;
+    int c;
 
     int dbfd = -1;
     struct dbheader_t *dbhdr = NULL;
@@ -52,7 +57,7 @@ int main(int argc, char *argv[]) {
             return -1;
         }
 
-        if (create_db_header(dbfd, &dbhdr) == STATUS_ERROR) {
+        if (create_db_header(&dbhdr) == STATUS_ERROR) {
             printf("Failed to create database header\n");
             return -1;
         }
@@ -67,6 +72,21 @@ int main(int argc, char *argv[]) {
             printf("Failed to validate database header\n");
             return -1;
         }
+    }
+
+    if (read_employees(dbfd, dbhdr, &employees) != STATUS_SUCCESS) {
+        printf("Failed to read employees");
+        return 0;
+    }
+
+    if (addstring) {
+        dbhdr->count++;
+        employees = realloc(employees, dbhdr->count * (sizeof(struct employee_t)));
+        add_employee(dbhdr, employees, addstring);
+    }
+
+    if (list) {
+        list_employees(dbhdr, employees);
     }
 
     output_file(dbfd, dbhdr, employees);
