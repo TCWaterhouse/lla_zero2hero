@@ -11,11 +11,11 @@
 
 void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
     if (dbhdr == NULL) {
-        return STATUS_ERROR;
+        return;
     }
 
     if (employees == NULL) {
-        return STATUS_ERROR;
+        return;
     }
 
     int i = 0;
