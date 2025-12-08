@@ -17,7 +17,6 @@ void print_usage(char *argv[]) {
 
 int main(int argc, char *argv[]) {
     char *filepath = NULL;
-    char *portarg = NULL;
     unsigned short port = 0;
     bool newfile = false;
     bool list = false;
@@ -28,13 +27,19 @@ int main(int argc, char *argv[]) {
     struct dbheader_t *dbhdr = NULL;
     struct employee_t *employees = NULL;
 
-    while ((c = getopt(argc, argv, "nf:")) != -1) {
+    while ((c = getopt(argc, argv, "nf:a:l")) != -1) {
         switch (c) {
         case 'f':
             filepath = optarg;
             break;
         case 'n':
             newfile = true;
+            break;
+        case 'a':
+            addstring = optarg;
+            break;
+        case 'l':
+            list = true;
             break;
         case '?':
             printf("Unknown option -%c\n", c);
