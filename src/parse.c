@@ -19,21 +19,58 @@ void list_employees(struct dbheader_t *dbhdr, struct employee_t *employees) {
     }
 }
 
-int add_employee(struct dbheader_t *dbhdr, struct employee_t *employees, char *addstring) {
+int add_employee(struct dbheader_t *dbhdr, struct employee_t **employees, char *addstring) {
     printf("%s\n", addstring);
 
+    if (dbhdr == NULL) {
+        return STATUS_ERROR;
+    }
+
+    if (employees == NULL) {
+        return STATUS_ERROR;
+    }
+
+    if (*employees == NULL) {
+        return STATUS_ERROR;
+    }
+
+    if (addstring == NULL) {
+        return STATUS_ERROR;
+    }
+
     char *name = strtok(addstring, ",");
+    if (name == NULL) {
+        printf("Failed to parse employee data");
+        return STATUS_ERROR;
+    }
 
     char *addr = strtok(NULL, ",");
+    if (addr == NULL) {
+        printf("Failed to parse employee data");
+        return STATUS_ERROR;
+    }
 
     char *hours = strtok(NULL, ",");
+    if (hours == NULL) {
+        printf("Failed to parse employee data");
+        return STATUS_ERROR;
+    }
 
     printf("%s %s %s\n", name, addr, hours);
 
-    strncpy(employees[dbhdr->count - 1].name, name, sizeof(employees[dbhdr->count - 1].name));
-    strncpy(employees[dbhdr->count - 1].address, addr, sizeof(employees[dbhdr->count - 1].address));
+    struct employee_t *e = *employees;
+    e = realloc(e, sizeof(struct employee_t) * dbhdr->count + 1);
+    if (e == NULL) {
+        return STATUS_ERROR;
+    }
 
-    employees[dbhdr->count - 1].hours = atoi(hours);
+    dbhdr->count++;
+
+    strncpy(e[dbhdr->count - 1].name, name, sizeof(e[dbhdr->count - 1].name) - 1);
+    strncpy(e[dbhdr->count - 1].address, addr, sizeof(e[dbhdr->count - 1].address) - 1);
+    e[dbhdr->count - 1].hours = atoi(hours);
+
+    *employees = e;
 
     return STATUS_SUCCESS;
 }

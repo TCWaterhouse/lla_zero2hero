@@ -8,10 +8,11 @@
 #include "parse.h"
 
 void print_usage(char *argv[]) {
-    printf("Usage: %s -f <database file> -n -a <employee name, address, hours>\n", argv[0]);
+    printf("Usage: %s -f <database file> -n -a <employee name,address,hours> -l\n", argv[0]);
     printf("\t -f - (required) path to database file\n");
     printf("\t -n - create new database file\n");
-    printf("\t -a - add employee to database\n");
+    printf("\t -a - add employee to database via csv (name,address,hours)\n");
+    printf("\t -l - list employees in database\n");
     return;
 }
 
@@ -85,9 +86,7 @@ int main(int argc, char *argv[]) {
     }
 
     if (addstring) {
-        dbhdr->count++;
-        employees = realloc(employees, dbhdr->count * (sizeof(struct employee_t)));
-        add_employee(dbhdr, employees, addstring);
+        add_employee(dbhdr, &employees, addstring);
     }
 
     if (list) {
